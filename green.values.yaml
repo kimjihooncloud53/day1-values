@@ -1,0 +1,65 @@
+metadata:
+  name: green-deploy
+  namespace: skills
+
+podLabels:
+  app: "green"
+
+spec:
+  replicas: 2
+
+serviceAccountName: app-user
+
+nodeSelector:
+  "skills": "app"
+
+container:
+  name: "green-container"
+  image: "742621102491.dkr.ecr.ap-northeast-2.amazonaws.com/skills-green-repo"
+  tag: "v1.0.0"
+  binary: "green"
+  imagePullPolicy: Always
+  port: 8080
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 1
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+resources:
+      requests:
+        cpu: "0.3"
+      limits:
+        cpu: "0.3"
+
+env:
+  - name: DB_USER
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: DB_USER
+  - name: DB_PASSWD
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: DB_PASSWD
+  - name: DB_URL
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: DB_URL
+
+fluentbit_sidecar:
+  name: green-fluent-bit-cm
+
+service:
+  name: green-svc
