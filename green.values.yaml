@@ -16,7 +16,7 @@ nodeSelector:
 container:
   name: "green-container"
   image: "742621102491.dkr.ecr.ap-northeast-2.amazonaws.com/skills-green-repo"
-  tag: "v1.0.0"
+  tag: v1.0.1
   binary: "green"
   imagePullPolicy: Always
   port: 8080
