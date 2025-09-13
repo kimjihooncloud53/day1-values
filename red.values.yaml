@@ -16,7 +16,7 @@ nodeSelector:
 container:
   name: "red-container"
   image: "742621102491.dkr.ecr.ap-northeast-2.amazonaws.com/skills-red-repo"
-  tag: v1.0.1
+  tag: v1.0.0
   binary: "red"
   imagePullPolicy: Always
   port: 8080
